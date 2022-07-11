@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NewGen</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/app/css/min/style.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<div class="head">
+			<form enctype="multipart/form-data" method="post" class="head_form">
+				<h1>Фильтр</h1>
+				<select class="form_selected">
+					<option class="price">Все курсы</option>
+					<option class="price" id="p1"></option>
+					<option class="price" id="p2"></option>
+					<option class="price" id="p3"></option>
+				</select>
+
+				<input type="button" class="button_filter" onclick="filter(); " value="Показать">
+			</form>
+		</div>
+		<div class="item" id="item">
+
+		</div>
+	</div>
+</body>
+<script src="/js/index.js"></script>
+
+</html>
