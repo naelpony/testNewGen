@@ -17,14 +17,18 @@
 		<div class="head">
 			<form enctype="multipart/form-data" method="post" class="head_form">
 				<h1>Фильтр</h1>
-				<select class="form_selected" id="select">
-					<option class="price" value="0" selected>Все курсы</option>
-					<option class="price" id="p1" value="1"></option>
-					<option class="price" id="p2" value="2"></option>
-					<option class="price" id="p3" value="3"></option>
-				</select>
-
+				<input type="number" class="price" placeholder="Минимальное значени" id="min">
+				<input type="number" class="price" placeholder="Максимальное значени" id="max">
+				<div class="radio">
+					<div class="radio_item">
+						<input type="radio" id="radioButton1"><label for="radio">По возрастанию</label>
+					</div>
+					<div class="radio_item">
+						<input type="radio" id="radioButton2"><label for="radio">По убыванию</label>
+					</div>
+				</div>
 				<input type="button" class="button_filter" onclick="filter(); " value="Показать">
+				<input type="button" class="button_filter" value="Очистить" id="clear">
 			</form>
 		</div>
 		<div class="item" id="item">

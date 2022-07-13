@@ -9,72 +9,88 @@ let courses = [
 	{ name: "Courses in Kazakhstan", prices: [56, 324] },
 	{ name: "Courses in France", prices: [null, null] },
 ];
+// Копируем родительский массив 
+let arrCopy = JSON.parse(JSON.stringify(courses));
 
-// Варианты цен (фильтры), которые ищет пользователь
-let requiredRange1 = [null, 200];
-let requiredRange2 = [100, 350];
-let requiredRange3 = [200, null];
+// Передаем копию массива в функцию вывода массива и сортировки массива 
+getArray(arrCopy);
+sortDown(arrCopy);
 
-
-let requiredRange4 = [0, Infinity];
-
-document.getElementById('p1').textContent = 'до ' + requiredRange1[1];
-document.getElementById('p2').textContent = 'от ' + requiredRange2[0] + ' до ' + requiredRange2[1];
-document.getElementById('p3').textContent = 'от ' + requiredRange3[0];
-
-for (i = 0; i < courses.length; i++) {
-	let f = courses[i];
-
-	document.getElementById('item').innerHTML +=
-		'<div class = "item_elemet">' +
-		'<div class = "name_element">' +
-		f.name +
-		'</div>' +
-		'<div class = "price_element">' +
-		'до ' + Math.max.apply(null, f.prices) +
-		'</div>' +
-		'</div>';
-
+// Функция вывода массива
+function getArray(n) {
+	let arr = n.forEach((item) => {
+		document.getElementById('item').innerHTML +=
+			'<div class = "item_elemet">' +
+			'<div class = "name_element">' +
+			item.name +
+			'</div>' +
+			'<div class = "price_element">' +
+			'до ' + Math.max.apply(null, item.prices) +
+			'</div>' +
+			'</div>';
+	})
+	return arr;
 }
 
-
-function getSelect() {
-	let select = document.getElementById('select');
-	let value = select.value;
-	let selected = [0,0];
-	if(value == 0){
-		selected = requiredRange4;
-	}else if(value == 1){
-		selected = requiredRange1;
-	}else if(value == 2){
-		selected = requiredRange2;
-	}else if (value == 3) {
-		selected = [requiredRange3[0] = requiredRange3[0], requiredRange3[1] ?? Infinity]; 
-	}else{
-		return 0;
-	}
-	return selected;
-}
-
+// Функция фильтра массива
 function filter() {
-	document.getElementById('item').innerHTML = "";
+	let minValue = document.getElementById('min').value;
+	let maxValue = document.getElementById('max').value;
+	// Проверка входных данных
+	if (minValue == '' && maxValue == '') {
+		alert('error');
+		return false;
+	} else {
+		document.getElementById('item').innerHTML = "";
+		let fil = courses.filter((item) => {
+			const min = item.prices[0] ?? 0;
+			const max = item.prices[1] ?? Infinity;
+			return min >= minValue && max <= maxValue;
+		});
 
-	let fil = courses.filter((item) => {
-		const min = item.prices[0] ?? 0;
-		const max = item.prices[1] ?? Infinity;
-		return min >= getSelect()[0] && max <= getSelect()[1];
-	});
-	console.log(fil);
-		for (i = 0; i < fil.length; i++){ 
-			let f = fil[i];
-			document.getElementById('item').innerHTML +=
-				'<div class = "item_elemet">' +
-				'<div class = "name_element">' +
-				f.name +
-				'</div>' +
-				'<div class = "price_element">' +
-				'до ' + Math.max.apply(null, f.prices) +
-				'</div>' +
-				'</div>';
-		}		
+		//Передаём в получившийся массив в функцию сортировки и функцию вывода массива
+		sortDown(fil);
+		getArray(fil);
 	}
+}
+
+//Функция сортировки массива
+function sortDown(n) {
+	// Сортировка по возрастанию
+	document.getElementById('radioButton1').addEventListener('click', () => {
+		document.getElementById('radioButton2').checked = false; 
+		document.getElementById('item').innerHTML = "";
+		let arr = n.sort(function (a, b) {
+			const firts = Math.max.apply(null, a.prices);
+			const two = Math.max.apply(null, b.prices);
+			return firts > two ? 1 : -1;
+		})
+		getArray(arr);
+	})
+
+	// Сортировка по убыванию
+	document.getElementById('radioButton2').addEventListener('click', () => {
+		document.getElementById('radioButton1').checked = false; 
+		document.getElementById('item').innerHTML = "";
+		let arr = n.sort(function (a, b) {
+			const firts = Math.max.apply(null, a.prices);
+			const two = Math.max.apply(null, b.prices);
+			return two - firts;
+		})
+		getArray(arr);
+	})
+}
+
+// Очистки страницы
+document.getElementById('clear').addEventListener('click', () => {
+	let arrCopy = JSON.parse(JSON.stringify(courses));
+	document.getElementById('radioButton1').checked = false; 
+	document.getElementById('radioButton2').checked = false;
+	document.getElementById('min').value = ''; 
+	document.getElementById('max').value = '';
+	document.getElementById('item').innerHTML = "";
+	getArray(arrCopy);
+	sortDown(arrCopy);
+})
+
+
